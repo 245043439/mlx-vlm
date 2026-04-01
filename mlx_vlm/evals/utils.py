@@ -63,7 +63,8 @@ def text_inference(
             ``quantized_kv_start``, and ``prefill_step_size``.
 
     Returns:
-        The generated text string.
+        A ``GenerationResult`` containing the generated text and statistics
+        (``prompt_tokens``, ``generation_tokens``, ``peak_memory``, etc.).
     """
     response = generate(
         model,

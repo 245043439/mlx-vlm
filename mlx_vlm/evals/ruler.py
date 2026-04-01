@@ -154,7 +154,7 @@ def _gen_variable_tracking(rng, ctx_len, processor):
     for _ in range(3):
         i, j = rng.sample(range(n_vars), 2)
         values[i], values[j] = values[j], values[i]
-        swaps.append(f"{var_names[i]} = {var_names[j]}; {var_names[j]} = {values[j]};")
+        swaps.append(f"{var_names[i]} = {values[i]}; {var_names[j]} = {values[j]};")
     assignments += " " + " ".join(swaps)
     text = _pad_to_length(assignments, ctx_len, processor)
     ask_var = rng.choice(range(n_vars))
@@ -273,21 +273,6 @@ def _gen_pattern_match(rng, ctx_len, processor):
     )
     question = f"Which items start with '{prefix}'?"
     return text, question, matching
-
-
-def _gen_conditional_retrieval(rng, ctx_len, processor):
-    """Conditional retrieval – find entries that satisfy a condition."""
-    entries = []
-    target_values = []
-    for i in range(6):
-        name = _random_word(rng).capitalize()
-        score = rng.randint(50, 100)
-        entries.append(f"{name} scored {score}.")
-        if score >= 80:
-            target_values.append(name)
-    text = _pad_to_length(" ".join(entries), ctx_len, processor)
-    question = "Which names scored 80 or above?"
-    return text, question, target_values
 
 
 # ---------------------------------------------------------------------------
